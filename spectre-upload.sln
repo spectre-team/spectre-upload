@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "spectre-upload", "spectre-upload\spectre-upload.csproj", "{3801C19C-5595-4040-B172-87058B5DC543}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{07BEC985-795D-489C-B00C-88359007AEFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{3801C19C-5595-4040-B172-87058B5DC543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3801C19C-5595-4040-B172-87058B5DC543}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3801C19C-5595-4040-B172-87058B5DC543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07BEC985-795D-489C-B00C-88359007AEFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07BEC985-795D-489C-B00C-88359007AEFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

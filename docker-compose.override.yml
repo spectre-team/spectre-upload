@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  spectre_upload:
+    build:
+      dockerfile: spectre-upload/Dockerfile-Development
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"
