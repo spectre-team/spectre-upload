@@ -13,27 +13,24 @@ env:
   matrix:
   - CONFIGURATION=Debug
   - CONFIGURATION=Release
-script:
+install:
 - nvm install 8
-- docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-- cd spectre-upload
+- echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+- pushd spectre-upload
 - npm install
-- cd ..
+- popd
 - dotnet restore spectre-upload.sln
+script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
 - |
-  if [ $CONFIGURATION = "Release" ]
-  then
+  if [ $CONFIGURATION = "Release" ]; then
       docker build -t spectre-upload --file spectre-upload/Dockerfile .
       docker images
-      if [ $TRAVIS_PULL_REQUEST = "false" ]
-      then
-          if [ $TRAVIS_BRANCH = "master" ]
-          then
+      if [ $TRAVIS_PULL_REQUEST = "false" ]; then
+          if [ $TRAVIS_BRANCH = "master" ]; then
               docker tag spectre-upload spectreteam/spectre-upload:latest
               docker push spectreteam/spectre-upload:latest
-          elif [ $TRAVIS_BRANCH = "develop" ]
-          then
+          elif [ $TRAVIS_BRANCH = "develop" ]; then
               docker tag spectre-upload spectreteam/spectre-upload:beta
               docker push spectreteam/spectre-upload:beta
           fi
