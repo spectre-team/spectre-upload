@@ -21,7 +21,6 @@ build:
   project: spectre-upload.sln
   parallel: true
   verbosity: minimal
-test: off
 deploy: off
 notifications:
 # this publishes to Continuous Integration channel in Glip

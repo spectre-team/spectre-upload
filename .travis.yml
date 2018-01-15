@@ -18,6 +18,7 @@ install:
 - dotnet restore spectre-upload.sln
 script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
+- dotnet test -c $CONFIGURATION --no-build upload-api.Test/upload-api.Test.csproj
 - |
   if [ $CONFIGURATION = "Release" ]; then
       docker build -t spectre-upload --file upload-api/Dockerfile .
