@@ -16,16 +16,7 @@ dotnet_csproj:
   informational_version: '{version}'
 services: iis
 install:
-- ps: >-
-    dotnet restore spectre-upload.sln
-
-    Install-Product node 8 x64
-
-    cd spectre-upload
-
-    npm install
-
-    cd ..
+- ps: dotnet restore spectre-upload.sln
 build:
   project: spectre-upload.sln
   parallel: true

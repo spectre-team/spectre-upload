@@ -14,11 +14,7 @@ env:
   - CONFIGURATION=Debug
   - CONFIGURATION=Release
 install:
-- nvm install 8
 - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-- pushd spectre-upload
-- npm install
-- popd
 - dotnet restore spectre-upload.sln
 script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
