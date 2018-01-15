@@ -24,7 +24,7 @@ script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
 - |
   if [ $CONFIGURATION = "Release" ]; then
-      docker build -t spectre-upload --file spectre-upload/Dockerfile .
+      docker build -t spectre-upload --file upload-api/Dockerfile .
       docker images
       if [ $TRAVIS_PULL_REQUEST = "false" ]; then
           if [ $TRAVIS_BRANCH = "master" ]; then

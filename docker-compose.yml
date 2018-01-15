@@ -1,8 +1,9 @@
 version: '3'
 
 services:
-  spectre_upload:
-    image: spectre_upload
+  upload-api:
+    image: upload-api
     build:
       context: .
-      dockerfile: spectre-upload/Dockerfile
+      dockerfile: upload-api/Dockerfile
+

@@ -5,10 +5,10 @@ EXPOSE 80
 FROM microsoft/aspnetcore-build:2.0 AS build
 WORKDIR /src
 COPY *.sln ./
-COPY spectre-upload/spectre-upload.csproj spectre-upload/
+COPY upload-api/upload-api.csproj upload-api/
 RUN dotnet restore
 COPY . .
-WORKDIR /src/spectre-upload
+WORKDIR /src/upload-api
 RUN dotnet build -c Release -o /app
 
 FROM build AS publish
@@ -17,4 +17,4 @@ RUN dotnet publish -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "spectre-upload.dll"]
+ENTRYPOINT ["dotnet", "upload-api.dll"]
