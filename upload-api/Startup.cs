@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using upload_api.Services;
 
 namespace upload_api
 {
@@ -24,6 +25,7 @@ namespace upload_api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddTransient<IDownloadService, DownloadService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
