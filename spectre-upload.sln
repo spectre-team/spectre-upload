@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{07BEC985-795D-489C-B00C-88359007AEFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload-api", "upload-api\upload-api.csproj", "{EB062AEB-98FF-4623-A97A-39609F7E78C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApi", "UploadApi\UploadApi.csproj", "{EB062AEB-98FF-4623-A97A-39609F7E78C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "upload-api.Test", "upload-api.Test\upload-api.Test.csproj", "{2A85D12D-8FFE-4E78-A22B-212B3578F0BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UploadApi.Test", "UploadApi.Test\UploadApi.Test.csproj", "{2A85D12D-8FFE-4E78-A22B-212B3578F0BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

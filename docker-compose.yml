@@ -5,5 +5,5 @@ services:
     image: upload-api
     build:
       context: .
-      dockerfile: upload-api/Dockerfile
+      dockerfile: UploadApi/Dockerfile
 

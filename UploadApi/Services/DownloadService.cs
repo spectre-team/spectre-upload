@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace upload_api.Services
+namespace UploadApi.Services
 {
     public class DownloadService: IDownloadService
     {

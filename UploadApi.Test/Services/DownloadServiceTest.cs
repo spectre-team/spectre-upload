@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace upload_api.Test.Services
+namespace UploadApi.Test.Services
 {
     public class DownloadServiceTest
     {

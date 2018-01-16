@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\upload-api\upload-api.csproj" />
+    <ProjectReference Include="..\UploadApi\UploadApi.csproj" />
   </ItemGroup>
 
 </Project>

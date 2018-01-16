@@ -18,11 +18,11 @@ install:
 - dotnet restore spectre-upload.sln
 script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
-- dotnet test -c $CONFIGURATION --no-build upload-api.Test/upload-api.Test.csproj
+- dotnet test -c $CONFIGURATION --no-build UploadApi.Test/UploadApi.Test.csproj
 after_success:
 - |
   if [ $CONFIGURATION = "Release" ]; then
-      docker build -t spectre-upload --file upload-api/Dockerfile .
+      docker build -t spectre-upload --file UploadApi/Dockerfile .
       docker images
       if [ $TRAVIS_PULL_REQUEST = "false" ]; then
           if [ $TRAVIS_BRANCH = "master" ]; then

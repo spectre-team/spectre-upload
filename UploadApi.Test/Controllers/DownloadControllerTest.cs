@@ -1,8 +1,8 @@
 using System;
-using upload_api.Controllers;
+using UploadApi.Controllers;
 using Xunit;
 
-namespace upload_api.Test
+namespace UploadApi.Test
 {
     public class DownloadControllerTest
     {

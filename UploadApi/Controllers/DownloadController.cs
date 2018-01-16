@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using upload_api.Services;
+using UploadApi.Services;
 
-namespace upload_api.Controllers
+namespace UploadApi.Controllers
 {
     [Route("api/[controller]")]
     public class DownloadController : Controller
