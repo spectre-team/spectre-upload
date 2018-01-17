@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace UploadApi.Services
 {
-    public class DownloadService: IDownloadService
+    public class DownloadService
     {
         public async Task DownloadAsync(string url, string destination)
         {
