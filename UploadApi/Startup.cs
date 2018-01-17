@@ -8,9 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using UploadApi.Services;
+using Spectre.UploadApi.Services;
 
-namespace upload_api
+namespace Spectre.UploadApi
 {
     public class Startup
     {

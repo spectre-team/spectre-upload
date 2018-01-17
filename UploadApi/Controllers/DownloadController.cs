@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using UploadApi.Services;
+using Spectre.UploadApi.Services;
 
-namespace UploadApi.Controllers
+namespace Spectre.UploadApi.Controllers
 {
     [Route("api/[controller]")]
     public class DownloadController : Controller

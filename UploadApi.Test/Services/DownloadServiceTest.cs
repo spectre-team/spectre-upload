@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace UploadApi.Test.Services
+namespace Spectre.UploadApi.Test.Services
 {
     public class DownloadServiceTest
     {

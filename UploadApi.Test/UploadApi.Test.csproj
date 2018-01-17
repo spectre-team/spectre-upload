@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RootNamespace>Spectre.UploadApi.Test</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

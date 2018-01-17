@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace UploadApi.Services
+namespace Spectre.UploadApi.Services
 {
     public class DownloadService
     {
