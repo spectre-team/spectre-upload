@@ -10,6 +10,8 @@ RUN dotnet restore
 COPY . .
 WORKDIR /src/upload-api
 RUN dotnet build -c Release -o /app
+WORKDIR /src/UploadApi.Test
+RUN dotnet test -c Release
 
 FROM build AS publish
 RUN dotnet publish -c Release -o /app
