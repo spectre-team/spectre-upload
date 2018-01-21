@@ -14,17 +14,15 @@ env:
   - CONFIGURATION=Debug
   - CONFIGURATION=Release
 install:
-- nvm install 8
 - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
-- pushd spectre-upload
-- npm install
-- popd
 - dotnet restore spectre-upload.sln
 script:
 - dotnet build -c $CONFIGURATION spectre-upload.sln
+- dotnet test -c $CONFIGURATION --no-build UploadApi.Test/UploadApi.Test.csproj
+after_success:
 - |
   if [ $CONFIGURATION = "Release" ]; then
-      docker build -t spectre-upload --file spectre-upload/Dockerfile .
+      docker build -t spectre-upload --file UploadApi/Dockerfile .
       docker images
       if [ $TRAVIS_PULL_REQUEST = "false" ]; then
           if [ $TRAVIS_BRANCH = "master" ]; then
