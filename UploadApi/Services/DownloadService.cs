@@ -17,19 +17,53 @@
    limitations under the License.
 */
 
+using System.IO.Abstractions;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Spectre.UploadApi.Services
 {
+    /// <summary>
+    /// Downloads files on disk.
+    /// </summary>
     public class DownloadService
     {
-        public async Task DownloadAsync(string url, string destination)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DownloadService"/> class.
+        /// </summary>
+        /// <param name="httpClient">The HTTP client.</param>
+        /// <param name="fileSystem">The file system.</param>
+        public DownloadService(HttpClient httpClient, IFileSystem fileSystem)
         {
-            using (var client = new HttpClient())
-            using (var content = await client.GetAsync(url))
-            using (var outputFile = System.IO.File.Create(destination))
-                await content.Content.CopyToAsync(outputFile);
+            _httpClient = httpClient;
+            _fileSystem = fileSystem;
         }
+
+        /// <summary>
+        /// Downloads the file from url in asynchronous manner.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <param name="destination">The destination file path.</param>
+        public virtual async Task DownloadAsync(string url, string destination)
+        {
+            try
+            {
+                using (var content = await _httpClient.GetAsync(url))
+                using (var outputFile = _fileSystem.File.Create(destination))
+                {
+                    if (!content.IsSuccessStatusCode)
+                        throw new DownloadFailureException(url, content.StatusCode);
+                    await content.Content.CopyToAsync(outputFile);
+                }
+            }
+            catch(HttpRequestException exception)
+            {
+                _fileSystem.File.Delete(destination);
+                throw new DownloadFailureException(url, exception);
+            }
+        }
+
+        private readonly HttpClient _httpClient;
+        private readonly IFileSystem _fileSystem;
     }
 }

@@ -23,21 +23,34 @@ using Spectre.UploadApi.Services;
 
 namespace Spectre.UploadApi.Controllers
 {
+    /// <summary>
+    /// API controller for file downloads.
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Route("api/[controller]")]
     public class DownloadController : Controller
     {
-        public DownloadController(DownloadService download)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DownloadController"/> class.
+        /// </summary>
+        /// <param name="fetchService">The fetch service.</param>
+        public DownloadController(DatasetFetchService fetchService)
         {
-            _downloadService = download;
+            _fetchService = fetchService;
         }
 
         // POST api/download
+        /// <summary>
+        /// Downloads file from the URL.
+        /// </summary>
+        /// <param name="url">The URL to file.</param>
+        /// <param name="datasetName">Name of the dataset to be fetched.</param>
         [HttpPost]
-        public async Task Post([FromBody]string value)
+        public async Task Post([FromBody]string url, [FromBody]string datasetName)
         {
-            await _downloadService.DownloadAsync(value, "new-file.txt");
+            await _fetchService.FetchAsync(url, datasetName);
         }
 
-        private DownloadService _downloadService;
+        private readonly DatasetFetchService _fetchService;
     }
 }

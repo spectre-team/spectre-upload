@@ -40,6 +40,11 @@ namespace Spectre.UploadApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services
+                .AddTransient<HttpClient>()
+                .AddTransient<IFileSystem, FileSystem>()
+                .AddTransient<DownloadService>()
+                .AddTransient<DatasetFetchService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

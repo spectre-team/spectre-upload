@@ -17,13 +17,38 @@
    limitations under the License.
 */
 
+using System.IO.Abstractions.TestingHelpers;
+using System.Net.Http;
+using Moq;
 using Spectre.UploadApi.Controllers;
+using Spectre.UploadApi.Services;
 using Xunit;
 
 namespace Spectre.UploadApi.Test.Controllers
 {
     public class DownloadControllerTest
     {
-        
+        private const string Url = "http://www.good.url/";
+        private const string DatasetName = "my precious";
+        private readonly Mock<DatasetFetchService> _fetchService;
+        private readonly DownloadController _controller;
+
+        public DownloadControllerTest()
+        {
+            var fileSystem = new MockFileSystem();
+            var downloader = new Mock<DownloadService>(new object[]{new HttpClient(), fileSystem});
+            var placementService = new Mock<DatasetPlacementService>(new object[]{fileSystem});
+            _fetchService = new Mock<DatasetFetchService>(new object[]{downloader.Object, fileSystem, placementService.Object});
+
+            _controller = new DownloadController(_fetchService.Object);
+        }
+
+        [Fact]
+        public void redirects_post_directly_to_fetch_service()
+        {
+            _controller.Post(Url, DatasetName).Wait();
+            _fetchService.Verify(s => s.FetchAsync(Url, DatasetName), Times.Exactly(1));
+            _fetchService.VerifyNoOtherCalls();
+        }
     }
 }
