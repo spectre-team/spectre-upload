@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  upload-api:
+    image: upload-api
+    build:
+      context: .
+      dockerfile: UploadApi/Dockerfile
+

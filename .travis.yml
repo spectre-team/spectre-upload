@@ -1,0 +1,47 @@
+language: csharp
+solution: spectre-upload.sln
+mono: none
+dotnet: 2.1.4
+sudo: required
+services:
+- docker
+env:
+  global:
+  - VERSION=1.0.0
+  - secure: iHs7pgKlNFp9tK1Fn50KriRQy02a3cfdRfLqxTjQwBrZGTZm6g6xVHPI6gpDZ8KciiyECRhyDx5dsBqB1xg9+GEOAPTHKCzWrWPNRqburhnbd65/iAxlZun+DYbJl1nwf7UsW6TmOiNAfLfl8aXmdpiLuF2x8/eOd1kfOgehgJe/eBrM/B4IOuYmtBJ7v33yHJpvzwMajonQh3upKFoPrFtdkBY86ElMZ1d7kMz8B1q1L6ATNZ4PszGETZoe4PC+Dtijto73LMxSWZDFN4zZz3FyXddpwgTDITa5Q//kucxHBiiWNFp13Rab0j2jYK4XrqquqAvPqcA7pRUvGrdnfDMnGa1d3gZ04DFIe58a7E2buqpYh3LJVAWfYRUI+tY1Mv+9/VbwRERPgKU/DCX7xHRkdLT23sp+w4YOI6vrxcLoH0hQzzLHbqqtqrq/TWOgOnv/7kqdjhox4of/qurG5F0Fuw7cCosb6a8/FuN7/ZO164dv1gZuyjqIgxBLcJURlb0Q3LU5DO8iDLFow6u0rkcy4p/qyesxj6T5Ihg/WygWgpfqAcu1qHNQtZrudAUOHSUtTlxixhLJyyGQ3Li7AvzpoAZHJ9TLcbimlny0Bh9JAKrWa5+a5NLGBxfjpljIZM6h0vtHaIaFWUujspHH2mcn27KYZizXaVPBlUkszNs=
+  - secure: g+LbQhGM6/di3eenMsd1X+iKXIynjPP/y6HWtbQSy23AjFkqGNQJ+QH+Pvk93lcEEcgFzD6v+rcAc/WabgroMca8cAHe8/RUYVg3RCLyxOjNf4aSTX2Lc+B+TZ7terQpzolD0W2eIJevZMIgX+WvpZW1Luqcy52AFjF39GhUmTD90RWjx2l7As9eRZqSLFcFF7F8Z6N7qSSfnSN7z0rp/EWjlHrvVk2yMHVqxvK8YUS7LxoPZlicN1JUSbV9q5CexAQ7t8ulXYPwE7T7ejcU9WMuPJSfcEijA4xOlDu2dotNmOYjxnm4tD0MDPom8df/816gleaC8moekCQMeZaNVqqDWiX/4H6qHUePCsUeXzgl7sWQWfIhBIR6hopwB3R9zWUWp3vqKarGHfe6H5yn/W5VHb0S3ElRPW/lEoPNKZC9Ie6Ppf0oQysbg5VsidF+FYVNCoDvgYO5Tjxr2DwdRfjxCy38vAYHcZWVJE8TrQKik++aFFaIqZcuUbrB9ydgIY1+Q2ksnVKdbwHlej8yEBsifPkzaXfIoBpA475Mv/lt2Vce3p2LoQI8G/dQ0YzltrO8tlyaPK6D/28a24JQrvAPljeKngoU0OW3hHJJZDZ8mJfD4qZHq9xwQUwWkJgjzFKy3QbFgxTND564F27IV4DEVMYRCpnx/olOPBu5fCg=
+  matrix:
+  - CONFIGURATION=Debug
+  - CONFIGURATION=Release
+install:
+- echo $DOCKER_PASSWORD | docker login -u $DOCKER_USER --password-stdin
+- dotnet restore spectre-upload.sln
+script:
+- dotnet build -c $CONFIGURATION spectre-upload.sln
+- dotnet test -c $CONFIGURATION --no-build UploadApi.Test/UploadApi.Test.csproj
+after_success:
+- |
+  if [ $CONFIGURATION = "Release" ]; then
+      docker build -t spectre-upload --file UploadApi/Dockerfile .
+      docker images
+      if [ $TRAVIS_PULL_REQUEST = "false" ]; then
+          if [ $TRAVIS_BRANCH = "master" ]; then
+              docker tag spectre-upload spectreteam/spectre-upload:latest
+              docker push spectreteam/spectre-upload:latest
+          elif [ $TRAVIS_BRANCH = "develop" ]; then
+              docker tag spectre-upload spectreteam/spectre-upload:beta
+              docker push spectreteam/spectre-upload:beta
+          fi
+          docker tag spectre-upload spectreteam/spectre-upload:$VERSION.$TRAVIS_BUILD_NUMBER
+          docker push spectreteam/spectre-upload:$VERSION.$TRAVIS_BUILD_NUMBER
+      fi
+  fi
+notifications:
+  webhooks:
+    urls:
+      secure: fhzbp0AqVGuu4MuGTj40jrUXshohcYt+h9U0ns359AIQkqhgFZJ7nfZNYezE1FV00tighoIuTUzbRUaBmgUYDe0wNNzGE38frRrpJc6iMw0s4Pbm0h3nENAILwGgOi043cI2EjVSVHfOF8//+Ys+PapMn+Gn1l1Y5bZ/uAVHHBnqLCtDbvCnU4tJT4ZLymSnMWfwoWdEz0Uj0I9UJykryreH9Fui3nwMGucijMDJyxYZ4u9B5TseKyWbGB3EtQGUcM/VfOn17ynK3FMIpjaHcqJWOHicMtHPp4UAD1xq31809e4tvkllnrGsCTvcoHKWY4PtQzxavG/xiJ25ptVlwrzCADjQNhg63THSAHHvnksmmKCNV4iCUzO+fHrlTq9MccgsdblTMEiKTqfgajafAxfa3UyJNhGcHm4+8/moawMTp7EjTj2sshEiw3GMktACOInj7YNeJGeSQh2WFCMDMfdv+wrxS+OH6BbxOyQOtXccxL5j73Mxz055AUei5JijNnvcrm2l+gH5KHs3zeHP0G4BTClZ9qsOBMbx/DGKk6Y4eueHzUk7KkvzG/5RLkK0xAOcgSmI+DA/bozWJirOCdKLlj6GyHA/+qVY6jcC3373uSvbVnSihdQYir/hN9nJ7hM0ReWWtxXi++CDakEvOO0Epn3awN6I5hoHsb/0FTg=
+  on_success: always
+  on_failure: always
+  on_start: never
+  on_cancel: never
+  on_error: always
