@@ -19,6 +19,7 @@
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Spectre.UploadApi.Models;
 using Spectre.UploadApi.Services;
 
 namespace Spectre.UploadApi.Controllers
@@ -43,12 +44,11 @@ namespace Spectre.UploadApi.Controllers
         /// <summary>
         /// Downloads file from the URL.
         /// </summary>
-        /// <param name="url">The URL to file.</param>
-        /// <param name="datasetName">Name of the dataset to be fetched.</param>
+        /// <param name="job">Download job.</param>
         [HttpPost]
-        public async Task Post([FromBody]string url, [FromBody]string datasetName)
+        public async Task Post([FromBody]DownloadJob job)
         {
-            await _fetchService.FetchAsync(url, datasetName);
+            await _fetchService.FetchAsync(job.Url, job.DatasetName);
         }
 
         private readonly DatasetFetchService _fetchService;
