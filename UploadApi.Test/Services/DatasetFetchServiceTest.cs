@@ -35,9 +35,9 @@ namespace Spectre.UploadApi.Test.Services
     {
         private const string Url = "http://www.good.url/";
         private const string DatasetName = "my precious";
-        private const string FinalDestination = "blah";
         private const string TemporaryLocation = "wololo";
         private const string DatasetContent = "IO-EO-IO-EEEE";
+        private readonly string _finalDestination;
         private readonly MockFileSystem _fileSystem;
         private readonly Mock<DownloadService> _downloadService;
         private readonly DatasetFetchService _service;
@@ -70,13 +70,14 @@ namespace Spectre.UploadApi.Test.Services
                 .Callback(() => _fileSystem.File.WriteAllText(TemporaryLocation, DatasetContent))
                 .Returns(task);
 
+            _finalDestination = _fileSystem.Path.Combine("blah", DatasetName);
             var placementService = new Mock<DatasetPlacementService>(new object[]{(IFileSystem)_fileSystem});
             placementService
                 .Setup(s => s.GetTemporaryDownloadLocation())
                 .Returns(TemporaryLocation);
             placementService
                 .Setup(s => s.GetDestinationLocation(DatasetName))
-                .Returns(FinalDestination);
+                .Returns(_finalDestination);
             
             _service = new DatasetFetchService(_downloadService.Object, _fileSystem, placementService.Object);
         }
@@ -90,8 +91,8 @@ namespace Spectre.UploadApi.Test.Services
                 return;
             }
             _service.FetchAsync(Url, DatasetName).Wait();
-            Assert.True(_fileSystem.FileExists(FinalDestination), "Dataset absent at default storage");
-            Assert.Equal(DatasetContent, _fileSystem.File.ReadAllText(FinalDestination));
+            Assert.True(_fileSystem.FileExists(_finalDestination), "Dataset absent at default storage");
+            Assert.Equal(DatasetContent, _fileSystem.File.ReadAllText(_finalDestination));
         }
 
         [Fact]

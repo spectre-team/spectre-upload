@@ -64,6 +64,8 @@ namespace Spectre.UploadApi.Services
                     }
                     if (_fileSystem.File.Exists(fileName))
                     {
+                        var directoryName = _fileSystem.Path.GetDirectoryName(destination);
+                        _fileSystem.Directory.CreateDirectory(directoryName);
                         _fileSystem.File.Move(fileName, destination);
                     }
                 });
