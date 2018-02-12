@@ -21,6 +21,7 @@ using System.IO.Abstractions.TestingHelpers;
 using System.Net.Http;
 using Moq;
 using Spectre.UploadApi.Controllers;
+using Spectre.UploadApi.Models;
 using Spectre.UploadApi.Services;
 using Xunit;
 
@@ -30,6 +31,7 @@ namespace Spectre.UploadApi.Test.Controllers
     {
         private const string Url = "http://www.good.url/";
         private const string DatasetName = "my precious";
+        private readonly DownloadJob _job = new DownloadJob(Url, DatasetName);
         private readonly Mock<DatasetFetchService> _fetchService;
         private readonly DownloadController _controller;
 
@@ -46,7 +48,7 @@ namespace Spectre.UploadApi.Test.Controllers
         [Fact]
         public void redirects_post_directly_to_fetch_service()
         {
-            _controller.Post(Url, DatasetName).Wait();
+            _controller.Post(_job).Wait();
             _fetchService.Verify(s => s.FetchAsync(Url, DatasetName), Times.Exactly(1));
             _fetchService.VerifyNoOtherCalls();
         }

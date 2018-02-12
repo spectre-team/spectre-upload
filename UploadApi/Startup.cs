@@ -43,6 +43,7 @@ namespace Spectre.UploadApi
             services
                 .AddTransient<HttpClient>()
                 .AddTransient<IFileSystem, FileSystem>()
+                .AddTransient<DatasetPlacementService>()
                 .AddTransient<DownloadService>()
                 .AddTransient<DatasetFetchService>();
         }
